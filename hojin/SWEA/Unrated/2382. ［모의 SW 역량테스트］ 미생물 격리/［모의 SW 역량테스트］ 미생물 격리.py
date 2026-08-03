@@ -25,6 +25,9 @@ for test_case in range(1, T + 1):
             if ny == n-1 or ny == 0 or nx == 0 or nx == n-1:
                 d = opposite[d]
                 size = int(size/2)
+            
+            if size == 0:
+                continue
 
             total_arr[ny][nx] += size
             if max_val_arr[ny][nx] < size:

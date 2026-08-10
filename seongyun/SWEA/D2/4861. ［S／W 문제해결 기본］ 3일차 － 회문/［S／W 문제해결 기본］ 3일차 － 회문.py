@@ -1,33 +1,33 @@
-def check(x, y, isRow):
-    if isRow:
-        tmp = board[x][y:(y + M)]
-    else:
-        tmp = [board[k][y] for k in range(x, x + M)]
-
-    return (tmp == tmp[::-1])
+def is_palindrome(board, r, c, M):
+    left = c
+    right = c + M - 1
+    
+    while left < right:
+        if board[r][left] != board[r][right]:
+            return False
+        left += 1
+        right -= 1
+    return True
 
 T = int(input())
 for test_case in range(1, T + 1):
     N, M = map(int, input().split())
     board = [list(input().strip()) for _ in range(N)]
+    board_t = list(zip(*board))
 
-    ans_pos = (0, 0, False)
-    isFind = False
-    for i in range(N):
-        for j in range(N):
-            if i + M - 1 < N and check(i, j, False):
-                ans_pos = (i, j, False)
-                isFind = True
+    ans = ""
+    is_find = False
+    for r in range(N):
+        for c in range(N - M + 1):
+            if is_palindrome(board, r, c, M):
+                ans =  "".join(board[r][c : c + M])
+                is_find = True
                 break
-            if j + M - 1 < N and check(i, j, True):
-                ans_pos = (i, j, True)
-                isFind = True
+            if is_palindrome(board_t, r, c, M):
+                ans = "".join(board_t[r][c : c + M])
+                is_find = True
                 break
-        if isFind:
-            break
+        if is_find:
+            break      
 
-    if ans_pos[2]:
-        ans = board[ans_pos[0]][ans_pos[1]:(ans_pos[1] + M)]
-    else:
-        ans = [board[k][ans_pos[1]] for k in range(ans_pos[0], ans_pos[0] + M)]
-    print(f"#{test_case} {''.join(ans)}")
+    print(f"#{test_case} {ans}")

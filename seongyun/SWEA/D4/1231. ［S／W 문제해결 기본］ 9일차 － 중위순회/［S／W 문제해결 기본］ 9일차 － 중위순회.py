@@ -1,30 +1,23 @@
-def inorder(tree, d, n):
-    if not tree[n]:
-        return d[n]
+def inorder(tree, n, N, res):
+    if n > N:
+        return 
 
-    word = ""
-    word += inorder(tree, d, tree[n][0])
-    word += d[n]
-    if len(tree[n]) == 2:
-        word += inorder(tree, d, tree[n][1])
-
-    return word
+    inorder(tree, n * 2, N, res)
+    res.append(tree[n])
+    inorder(tree, n * 2 + 1, N, res)
 
 
 def solve():
     N = int(input())
-    tree = [[] for _ in range(N + 1)]
-    d = {}
+    tree = [""] * (N + 1)
 
     for _ in range(N):
-        tmp = input().split()
-        d[int(tmp[0])] = tmp[1]
-        if len(tmp) >= 3:
-            tree[int(tmp[0])].append(int(tmp[2]))
-        if len(tmp) >= 4:
-            tree[int(tmp[0])].append(int(tmp[3]))
+        node, val, *children = input().split()
+        tree[int(node)] = val
 
-    return inorder(tree, d, 1)
+    res = []
+    inorder(tree, 1, N, res)
+    return "".join(res)
 
 
 for test_case in range(1, 11):

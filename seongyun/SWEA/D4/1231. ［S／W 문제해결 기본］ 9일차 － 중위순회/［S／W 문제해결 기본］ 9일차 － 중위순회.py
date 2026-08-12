@@ -1,10 +1,9 @@
 def inorder(tree, n, N, res):
-    if n > N:
-        return 
-
-    inorder(tree, n * 2, N, res)
+    if n * 2 <= N:
+        inorder(tree, n * 2, N, res)
     res.append(tree[n])
-    inorder(tree, n * 2 + 1, N, res)
+    if n * 2 + 1 <= N:
+        inorder(tree, n * 2 + 1, N, res)
 
 
 def solve():
@@ -12,8 +11,8 @@ def solve():
     tree = [""] * (N + 1)
 
     for _ in range(N):
-        node, val, *children = input().split()
-        tree[int(node)] = val
+        tmp = input().split()
+        tree[int(tmp[0])] = tmp[1]
 
     res = []
     inorder(tree, 1, N, res)

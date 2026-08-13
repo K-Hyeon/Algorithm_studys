@@ -1,38 +1,25 @@
-from collections import deque
-
 def solve():
     N, M = map(int, input().split())
     town = [list(map(int, input().split())) for _ in range(N)]
 
-    dx = (1, -1, 0, 0)
-    dy = (0, 0, 1, -1)
+    homes = [(r, c) for r in range(N) for c in range(N) if town[r][c] == 1]
+
     max_home = 0
+    cost = [k * k + (k - 1) * (k - 1) for k in range(N + 2)]
+
     for r in range(N):
         for c in range(N):
-            visited = [[False for _ in range(N)] for _ in range(N)]
-            q = deque([(r, c)])
-            visited[r][c] = True
+            dist_cnt = [0] * (2 * N - 1)
+            for hr, hc in homes:
+                d = abs(r - hr) + abs(c - hc)
+                dist_cnt[d] += 1
 
-            k = 0
-            cnt = 0
+            covered_homes = 0
+            for k in range(1, N + 2):
+                covered_homes += dist_cnt[k - 1]
 
-            while q:
-                length = len(q)
-                k += 1
-                for _ in range(length):
-                    cur_x, cur_y = q.popleft()
-                    if town[cur_x][cur_y] == 1:
-                        cnt += 1
-
-                    for i in range(4):
-                        nx, ny = cur_x + dx[i], cur_y + dy[i]
-                        if 0 <= nx < N and 0 <= ny < N and not visited[nx][ny]:
-                            visited[nx][ny] = True
-                            q.append((nx, ny))
-
-                cost = k * k + (k - 1) * (k - 1)
-                if cnt * M >= cost:
-                    max_home = max(max_home, cnt)
+                if covered_homes * M >= cost[k]:
+                    max_home = max(max_home, covered_homes)
 
     return max_home
 

@@ -1,22 +1,28 @@
 T = int(input())
-for test_case in range(1, T+1):
-    #우하좌상
-    n = int(input())
-    arr = [[0]*n for _ in range(n)]
-    dr = [0,1,0,-1]
-    dc = [1,0,-1,0]
-    dir = 0
-    r,c =0,0
-    print(f"#{test_case}")
-    for num in range(1,n*n+1):
-        arr[r][c] = num
-        nr, nc = r + dr[dir], c + dc[dir]
-        if 0<=nr<n and 0<=nc<n and arr[nr][nc] == 0:
-            r,c = nr,nc
-        else:
-            dir = (dir+1) % 4
-            r,c = r + dr[dir], c + dc[dir]
+# 여러개의 테스트 케이스가 주어지므로, 각각을 처리합니다.
+for test_case in range(1, T + 1):
+    N = int(input())
 
-    for row in arr:
-        [print(item, end=" ") for item in row]
-        print()
+    dx = [0, 1, 0, -1] # 우(0), 하(1), 좌(2), 상(3)
+    dy = [1, 0, -1, 0]
+
+    rotate_map = [[0] * N for _ in range(N)]
+
+    cur_x, cur_y, cur_dirrection = 0, 0, 0  # (x, y, 현재 direction)
+
+    for num in range(1, N * N + 1):
+        rotate_map[cur_x][cur_y] = num
+
+        new_x = cur_x + dx[cur_dirrection]
+        new_y = cur_y + dy[cur_dirrection]
+
+        if new_x < 0 or new_x >= N or new_y < 0 or new_y >= N or rotate_map[new_x][new_y] != 0:
+            cur_dirrection = (cur_dirrection + 1) % 4
+            new_x = cur_x + dx[cur_dirrection]
+            new_y = cur_y + dy[cur_dirrection]
+
+        cur_x, cur_y = new_x, new_y
+
+    print(f"#{test_case}")
+    for i in range(N):
+        print(*rotate_map[i])

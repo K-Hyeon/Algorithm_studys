@@ -1,0 +1,19 @@
+def solve():
+    memo = [0] * 10
+    max_cnt = 0
+    max_num = -1
+    N = int(input())
+    for n in input().strip():
+        memo[int(n)] += 1
+
+    for digit in range(10):
+        if memo[digit] >= max_cnt:
+            max_cnt = memo[digit]
+            max_num = digit
+
+    return f"{max_num} {max_cnt}"
+
+
+T = int(input())
+for t in range(1, T + 1):
+    print(f"#{t} {solve()}")

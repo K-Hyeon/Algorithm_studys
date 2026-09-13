@@ -1,0 +1,21 @@
+def solve():
+    N, M = map(int, input().split())
+    a = list(map(int, input().split()))
+    b = list(map(int, input().split()))
+    
+    if N > M:
+        a, b = b, a
+        N, M = M, N
+    
+    ans = float('-inf')
+    for st in range(M - N + 1):
+        tmp = 0
+        for idx in range(N):
+            tmp += a[idx] * b[st + idx]
+        ans = max(ans, tmp)
+    return ans
+    
+
+T = int(input())
+for t in range(1, T + 1):
+    print(f"#{t} {solve()}")

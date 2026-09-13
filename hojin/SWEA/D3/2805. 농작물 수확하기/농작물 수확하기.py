@@ -1,13 +1,16 @@
 T = int(input())
-# 여러개의 테스트 케이스가 주어지므로, 각각을 처리합니다.
+
 for test_case in range(1, T + 1):
     n = int(input())
-    result = 0
-    board = [list(map(int, input())) for _ in range(n)]
-    middle = int(n/2)
-    for row in range(n):
-        for col in range(n):
-            if abs(middle - row) + abs(middle - col) <= middle:
-                result += board[row][col]
+    mid = n//2
+    matrix = [input() for _ in range(n)]
 
-    print(f'#{test_case} {result}')
+    benefit = 0
+    for i in range(n):
+        if i <= mid:
+            for j in range(mid-i, mid+i+1):
+                benefit += int(matrix[i][j])
+        else:
+            for j in range(i-mid, n-(i-mid)):
+                benefit += int(matrix[i][j])
+    print(f'#{test_case} {benefit}')

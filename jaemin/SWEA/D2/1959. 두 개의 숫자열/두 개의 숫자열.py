@@ -1,0 +1,24 @@
+T = int(input())
+
+for tc in range(1, T + 1):
+    N, M = map(int, input().split())
+    A = list(map(int, input().split()))
+    B = list(map(int, input().split()))
+
+    # A가 항상 짧은 배열이 되도록 변경
+    if N > M:
+        A, B = B, A
+        N, M = M, N
+
+    answer = -float('inf')
+
+    # 짧은 배열 A를 긴 배열 B 위에서 한 칸씩 이동
+    for start in range(M - N + 1):
+        total = 0
+
+        for i in range(N):
+            total += A[i] * B[start + i]
+
+        answer = max(answer, total)
+
+    print(f'#{tc} {answer}')

@@ -2,33 +2,33 @@ import heapq
 
 def solve():
     N = int(input())
-    map_info = [list(map(int, input().strip())) for _ in range(N)]
-    INF = 1e8
+    board = [list(map(int, input().strip())) for _ in range(N)]
 
-    visited = [[False for _ in range(N)] for _ in range(N)]
-    dist = [[INF for _ in range(N)] for _ in range(N)]
     dx = (1, -1, 0, 0)
     dy = (0, 0, 1, -1)
 
-    q = []
-    heapq.heappush(q, (0, 0, 0))
+    INF = float('inf')
+    dist = [[INF for _ in range(N)] for _ in range(N)]
     dist[0][0] = 0
+    pq = [(0, 0, 0)]
 
-    while q:
-        d, x, y = heapq.heappop(q)
-        if dist[x][y] < d:
+    while pq:
+        cur_cost, cx, cy = heapq.heappop(pq)
+
+        if cur_cost > dist[cx][cy]:
             continue
 
         for i in range(4):
-            nx, ny = x + dx[i], y + dy[i]
+            nx, ny = cx + dx[i], cy + dy[i]
             if 0 <= nx < N and 0 <= ny < N:
-                if d + map_info[nx][ny] < dist[nx][ny]:
-                    dist[nx][ny] = d + map_info[nx][ny]
-                    heapq.heappush(q, (d + map_info[nx][ny], nx, ny))
+                next_cost = cur_cost + board[nx][ny]
 
-    return dist[N - 1][N - 1] 
+                if next_cost < dist[nx][ny]:
+                    dist[nx][ny] = next_cost
+                    heapq.heappush(pq, (next_cost, nx, ny))
     
+    return dist[N - 1][N - 1]
 
 T = int(input())
-for test_case in range(1, T + 1):
-    print(f"#{test_case} {solve()}")
+for t in range(1, T + 1):
+    print(f"#{t} {solve()}")
